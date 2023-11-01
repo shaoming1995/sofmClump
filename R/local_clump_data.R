@@ -37,12 +37,15 @@ local_clump_data<-function(keyssh,temp_dat,filepos,pop,clump_kb,clump_r2){
                        # get_plink_exe()
                        plink_bin = get_plink_exe(),
                        bfile = filepos,
-                       clump_kb = 500, clump_r2 = 0.01,pop=pop)
+                       clump_kb = clump_kb, clump_r2 = clump_r2,pop=pop)
   # 运行结果：
   # Removing 69 of 92 variants due to LD with other variants or absence from LD reference panel
   # 移除重复的列：rsid，pval
   temp_dat$rsid <- NULL
   temp_dat$pval <- NULL
-  print("已经完成聚类分析")}else{cat("keyssh不正确,请联系管理员微信SFM19950928获取密钥")
-    }
+  return(temp_dat)
+  cat("已经完成聚类分析")}
+  else{cat("keyssh不正确,请联系管理员微信SFM19950928获取密钥")}
 }
+
+
