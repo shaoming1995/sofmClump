@@ -4,14 +4,14 @@
 \alias{local_clump_data}
 \title{提供本地聚类分析的R包，但是需要联系顶刊研习社获取参考面板数据或者微信SFM19950928}
 \usage{
-local_clump_data(keyssh, temp_dat, filepos, pop, clump_kb, clump_r2)
+local_clump_data(keyssh, temp_dat, filepath, pop, clump_kb, clump_r2)
 }
 \arguments{
 \item{keyssh}{输入密钥}
 
 \item{temp_dat}{需要聚类分析的变量名}
 
-\item{filepos}{参考面板数据（.bed/.fam/.bim）的文件位置}
+\item{filepath}{参考面板数据（.bed/.fam/.bim）的文件位置}
 
 \item{pop}{人种选择，仅支持EUR/EAS}
 
