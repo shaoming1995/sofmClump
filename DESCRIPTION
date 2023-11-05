@@ -1,6 +1,6 @@
 Package: sofmClump
 Title: What the Package Does (One Line, Title Case)
-Version: 0.23.11.2
+Version: 0.23.11.6
 Authors@R: 
     person("MingShao", "HuiGong", "shaoming0928@163.com","gh2017@yeah.net", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
