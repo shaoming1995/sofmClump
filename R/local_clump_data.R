@@ -8,18 +8,33 @@
 #' @export
 
 local_clump_data<-function(keyssh,temp_dat,filepath,pop,clump_kb,clump_r2){
+  if (!is.null(keyssh)) {
+    warning("该密钥可以联系顶刊研习社获取或者抖音ID医小研~")
+  }
   if(!require("tidyr",quietly=T))
       install.packages("tidyr")
   if(!require("plinkbinr",quietly=T))
     devtools::install_github("explodecomputer/plinkbinr")
   library(plinkbinr)
   library(tidyr)
+  if(!require("plinkbinr",quietly=T))
+    devtools::install_github("explodecomputer/plinkbinr")
   library(key)
-  if(Sys.info()==keyssh){
+  if(!require("plinkbinr",quietly=T))
+    devtools::install_github("explodecomputer/plinkbinr")
+  if(Sys.info()["nodename"]==keyssh){
   temp_dat$id <- temp_dat$id.exposure
+  if(!require("plinkbinr",quietly=T))
+    devtools::install_github("explodecomputer/plinkbinr")
   temp_dat$rsid <- temp_dat$SNP
+  if(!require("plinkbinr",quietly=T))
+    devtools::install_github("explodecomputer/plinkbinr")
   temp_dat$pval <- temp_dat$pval.exposure
+  if(!require("plinkbinr",quietly=T))
+    devtools::install_github("explodecomputer/plinkbinr")
   filepath1<-paste0(filepath,"/",pop)
+  if(!require("plinkbinr",quietly=T))
+    devtools::install_github("explodecomputer/plinkbinr")
   ld_sofm<-function (dat = NULL, clump_kb = 10000, clump_r2 = 0.001, clump_p = 0.99,
             pop = "EUR", access_token = NULL, bfile = NULL, plink_bin = NULL)
   {
@@ -70,6 +85,18 @@ local_clump_data<-function(keyssh,temp_dat,filepath,pop,clump_kb,clump_r2){
     res <- dplyr::bind_rows(res)
     return(res)
   }
+  if(!require("TwoSampleMR",quietly=T))
+    devtools::install_github("explodecomputer/plinkbinr")
+  temp_dat$rsid <- temp_dat$SNP
+  if(!require("plinkbinr",quietly=T))
+    devtools::install_github("explodecomputer/plinkbinr")
+  temp_dat$pval <- temp_dat$pval.exposure
+  if(!require("plinkbinr",quietly=T))
+    devtools::install_github("explodecomputer/plinkbinr")
+  filepath1<-paste0(filepath,"/",pop)
+
+  if(!require("TwoSampleMR",quietly=T))
+    devtools::install_github("explodecomputer/plinkbinr")
   temp_dat <- ld_sofm(temp_dat,
                        plink_bin = get_plink_exe(),
                        bfile = filepath1,
@@ -78,7 +105,7 @@ local_clump_data<-function(keyssh,temp_dat,filepath,pop,clump_kb,clump_r2){
   temp_dat$pval <- NULL
   return(temp_dat)
   cat("已经完成聚类分析")}
-  else{cat("keyssh不正确,请联系管理员微信SFM19950928获取密钥")}
+  else{warning("keyssh不正确,请联系管理员微信SFM19950928获取密钥")}
 }
 
 
