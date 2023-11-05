@@ -9,7 +9,7 @@
 
 local_clump_data<-function(keyssh,temp_dat,filepath,pop,clump_kb,clump_r2){
   if (!is.null(keyssh)) {
-    warning("该密钥可以联系顶刊研习社获取或者抖音ID医小研~")
+    warning("该密钥具有有效期,可以联系顶刊研习社或者抖音ID医小研继续获取~")
   }
   if(!require("tidyr",quietly=T))
       install.packages("tidyr")
@@ -35,7 +35,30 @@ local_clump_data<-function(keyssh,temp_dat,filepath,pop,clump_kb,clump_r2){
   filepath1<-paste0(filepath,"/",pop)
   if(!require("plinkbinr",quietly=T))
     devtools::install_github("explodecomputer/plinkbinr")
-  ld_sofm<-function (dat = NULL, clump_kb = 10000, clump_r2 = 0.001, clump_p = 0.99,
+  ld_sofm1<- function (dat, clump_kb, clump_r2, clump_p, bfile, plink_bin)
+  {
+    shell <- ifelse(Sys.info()["sysname"] == "Windows", "cmd",
+                    "sh")
+    fn <- tempfile()
+    write.table(data.frame(SNP = dat[["rsid"]], P = dat[["pval"]]),
+                file = fn, row.names = F, col.names = T, quote = F)
+    fun2 <- paste0(shQuote(plink_bin, type = shell), " --bfile ",
+                   shQuote(bfile, type = shell), " --clump ", shQuote(fn,
+                                                                      type = shell), " --clump-p1 ", clump_p, " --clump-r2 ",
+                   clump_r2, " --clump-kb ", clump_kb, " --threads 20 --out ", shQuote(fn,
+                                                                          type = shell))
+    system(fun2)
+    res <- read.table(paste(fn, ".clumped", sep = ""), header = T)
+    unlink(paste(fn, "*", sep = ""))
+    y <- subset(dat, !dat[["rsid"]] %in% res[["SNP"]])
+    if (nrow(y) > 0) {
+      message("Removing ", length(y[["rsid"]]), " of ", nrow(dat),
+              " variants due to LD with other variants or absence from LD reference panel")
+    }
+    return(subset(dat, dat[["rsid"]] %in% res[["SNP"]]))
+  }
+
+  ld_sofm2<-function (dat = NULL, clump_kb = 10000, clump_r2 = 0.001, clump_p = 0.99,
             pop = "EUR", access_token = NULL, bfile = NULL, plink_bin = NULL)
   {
     stopifnot("rsid" %in% names(dat))
@@ -76,7 +99,7 @@ local_clump_data<-function(keyssh,temp_dat,filepath,pop,clump_kb,clump_r2){
                                    access_token = access_token)
         }
         else {
-          res[[i]] <- ld_clump_local(x, clump_kb = clump_kb,
+          res[[i]] <- ld_sofm1(x, clump_kb = clump_kb,
                                      clump_r2 = clump_r2, clump_p = clump_p, bfile = bfile,
                                      plink_bin = plink_bin)
         }
@@ -97,7 +120,7 @@ local_clump_data<-function(keyssh,temp_dat,filepath,pop,clump_kb,clump_r2){
 
   if(!require("TwoSampleMR",quietly=T))
     devtools::install_github("explodecomputer/plinkbinr")
-  temp_dat <- ld_sofm(temp_dat,
+  temp_dat <- ld_sofm2(temp_dat,
                        plink_bin = get_plink_exe(),
                        bfile = filepath1,
                        clump_kb = clump_kb, clump_r2 = clump_r2,pop=pop)
