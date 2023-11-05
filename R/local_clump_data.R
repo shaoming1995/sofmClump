@@ -52,8 +52,9 @@ local_clump_data<-function(keyssh,temp_dat,filepath,pop,clump_kb,clump_r2){
     unlink(paste(fn, "*", sep = ""))
     y <- subset(dat, !dat[["rsid"]] %in% res[["SNP"]])
     if (nrow(y) > 0) {
-      message("Removing ", length(y[["rsid"]]), " of ", nrow(dat),
-              " variants due to LD with other variants or absence from LD reference panel")
+      message("由于与其他变体的连锁不平衡或在连锁不平衡参考面板中的缺失 ",
+              "从 ", nrow(dat), " 个SNP中一共移除了 ", length(y[["rsid"]]), " 个SNP" ,
+              )
     }
     return(subset(dat, dat[["rsid"]] %in% res[["SNP"]]))
   }
