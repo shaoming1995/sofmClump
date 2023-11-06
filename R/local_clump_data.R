@@ -1,4 +1,4 @@
-#' @title 提供本地聚类分析的R包，但是需要联系顶刊研习社获取参考面板数据或者微信SFM19950928
+#' @title 提供本地聚类分析的R包，但是需要联系顶刊研习社获取参考面板数据或者微信DKYXS666
 #' @param keyssh 输入密钥
 #' @param temp_dat 需要聚类分析的变量名
 #' @param filepath 参考面板数据（.bed/.fam/.bim）的文件位置
@@ -52,9 +52,8 @@ local_clump_data<-function(keyssh,temp_dat,filepath,pop,clump_kb,clump_r2){
     unlink(paste(fn, "*", sep = ""))
     y <- subset(dat, !dat[["rsid"]] %in% res[["SNP"]])
     if (nrow(y) > 0) {
-      message("由于与其他变体的连锁不平衡或在连锁不平衡参考面板中的缺失 ",
-              "从 ", nrow(dat), " 个SNP中一共移除了 ", length(y[["rsid"]]), " 个SNP" ,
-              )
+      message("Removing ", length(y[["rsid"]]), " of ", nrow(dat),
+              " variants due to LD with other variants or absence from LD reference panel")
     }
     return(subset(dat, dat[["rsid"]] %in% res[["SNP"]]))
   }
@@ -131,10 +130,6 @@ local_clump_data<-function(keyssh,temp_dat,filepath,pop,clump_kb,clump_r2){
   cat("已经完成聚类分析")}
   else{warning("keyssh不正确,请联系管理员微信SFM19950928获取密钥")}
 }
-
-
-
-
 
 
 
